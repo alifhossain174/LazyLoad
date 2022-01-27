@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title>Lazy loading</title>
+        <style>
+            .image{
+                display: block;
+                margin-top: 600px;
+                height: 200px;
+                width: 400px;
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+
+        <img id="image1" class="image" data-image="https://www.hdwallpapers.in/download/fresh_nature-wide.jpg">
+        <img id="image2" class="image" data-image="https://www.hdwallpapers.in/download/sunny_bright_day-2560x1600.jpg">
+        <img id="image3" class="image" data-image="https://www.hdwallpapers.in/download/costa_quebrada_cantabria_spain_coast-wide.jpg">
+        <img id="image4" class="image" data-image="https://www.hdwallpapers.in/download/fresh_nature-wide.jpg">
+        <img id="image5" class="image" data-image="https://www.hdwallpapers.in/download/sunny_bright_day-2560x1600.jpg">
+        <img id="image6" class="image" data-image="https://www.hdwallpapers.in/download/costa_quebrada_cantabria_spain_coast-wide.jpg">
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <script>
+            let options = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.25
+            };
+
+            let callback = (entries, observer)=>{
+                entries.forEach(entry => {
+                    if(entry.isIntersecting && entry.target.className === 'image'){
+                        let imageUrl = entry.target.getAttribute('data-image')
+                        if(imageUrl){
+                            entry.target.src = imageUrl;
+                            observer.unobserver(entry.target);
+                        }
+                    }
+                });
+            }
+
+            let observer = new IntersectionObserver(callback, options);
+            observer.observe(document.querySelector('#image1'));
+            observer.observe(document.querySelector('#image2'));
+            observer.observe(document.querySelector('#image3'));
+            observer.observe(document.querySelector('#image4'));
+            observer.observe(document.querySelector('#image5'));
+            observer.observe(document.querySelector('#image6'));
+        </script>
+    </body>
+</html>
